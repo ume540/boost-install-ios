@@ -27,7 +27,6 @@
 
 : ${COMPILER:="clang++"}
 
-: ${TARBALLDIR:=`pwd`}
 : ${SRCDIR:=`pwd`}
 : ${IOSBUILDDIR:=`pwd`/ios/build}
 : ${OSXBUILDDIR:=`pwd`/osx/build}
@@ -40,7 +39,9 @@
 
 #===============================================================================
 
-BOOST_TARBALL=$TARBALLDIR/boost_$BOOST_VERSION.tar.bz2
+BOOST_VERSION_DOT=`echo $BOOST_VERSION | sed s/_/\./g`
+BOOST_TARBALL_URL=http://sourceforge.net/projects/boost/files/boost/$BOOST_VERSION_DOT/boost_$BOOST_VERSION.tar.gz
+BOOST_TARBALL=$SRCDIR/boost_$BOOST_VERSION.tar.gz
 BOOST_SRC=$SRCDIR/boost_${BOOST_VERSION}
 
 #===============================================================================
@@ -87,8 +88,11 @@ unpackBoost()
     echo "== Unpacking boost into $SRCDIR..."
 
     [ -d $SRCDIR ]    || mkdir -p $SRCDIR
-    [ -d $BOOST_SRC ] || ( cd $SRCDIR; tar xfj $BOOST_TARBALL )
-    [ -d $BOOST_SRC ] && echo "    ...unpacked as $BOOST_SRC"
+    pushd $SRCDIR
+        [ -f $BOOST_TARBALL ] || wget -c $BOOST_TARBALL_URL
+        [ -d $BOOST_SRC ] || tar xfj $BOOST_TARBALL
+        [ -d $BOOST_SRC ] && echo "    ...unpacked as $BOOST_SRC"
+    popd
 
     doneSection
 }
@@ -338,14 +342,9 @@ EOF
 # Execution starts here
 #===============================================================================
 
-mkdir -p $IOSBUILDDIR
-
-cleanEverythingReadyToStart
-
-unpackBoost
-updateBoost
-
 echo "BOOST_VERSION:     $BOOST_VERSION"
+echo "BOOST_VERSION_DOT: $BOOST_VERSION_DOT"
+echo "BOOST_TARBALL_URL: $BOOST_TARBALL_URL"
 echo "BOOST_LIBS:        $BOOST_LIBS"
 echo "BOOST_SRC:         $BOOST_SRC"
 echo "IOSBUILDDIR:       $IOSBUILDDIR"
@@ -357,6 +356,13 @@ echo "IPHONE_SDKVERSION: $IPHONE_SDKVERSION"
 echo "XCODE_ROOT:        $XCODE_ROOT"
 echo "COMPILER:          $COMPILER"
 echo
+
+mkdir -p $IOSBUILDDIR
+
+cleanEverythingReadyToStart
+
+unpackBoost
+updateBoost
 
 inventMissingHeaders
 bootstrapBoost
