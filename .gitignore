@@ -1,0 +1,9 @@
+
+*.log
+*.tar.gz
+/boost_*
+/ios
+/osx
+/iphone-build
+/iphonesim-build
+/osx-build
