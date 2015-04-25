@@ -18,6 +18,7 @@
 # Then go get the source tar.bz of the boost you want to build, shove it in the
 # same directory as this script, and run "./boost.sh". Grab a cuppa. And voila.
 #===============================================================================
+set -eu
 
 : ${BOOST_LIBS:="filesystem system date_time"}
 : ${BOOST_VERSION:=1_58_0}
@@ -31,8 +32,8 @@
 : ${IOSBUILDDIR:=`pwd`/ios/build}
 : ${OSXBUILDDIR:=`pwd`/osx/build}
 : ${PREFIXDIR:=`pwd`/ios/prefix}
-: ${IOSFRAMEWORKDIR:=`pwd`/ios/framework/$BOOST_VERSION}
-: ${OSXFRAMEWORKDIR:=`pwd`/osx/framework/$BOOST_VERSION}
+: ${IOSFRAMEWORKDIR:=`pwd`/ios/framework}
+: ${OSXFRAMEWORKDIR:=`pwd`/osx/framework}
 
 : ${XCODE_ROOT:=`xcode-select -print-path`}
 : ${EXTRA_CPPFLAGS:="-DBOOST_AC_USE_PTHREADS -DBOOST_SP_USE_PTHREADS -std=c++11 -stdlib=libc++"}
