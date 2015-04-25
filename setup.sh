@@ -76,8 +76,8 @@ cleanEverythingReadyToStart()
     rm -rf $IOSBUILDDIR
     rm -rf $OSXBUILDDIR
     rm -rf $PREFIXDIR
-    rm -rf $IOSFRAMEWORKDIR/$FRAMEWORK_NAME.framework
-    rm -rf $OSXFRAMEWORKDIR/$FRAMEWORK_NAME.framework
+    rm -rf $IOSFRAMEWORKDIR
+    rm -rf $OSXFRAMEWORKDIR
 
     doneSection
 }
