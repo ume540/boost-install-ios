@@ -72,12 +72,12 @@ cleanEverythingReadyToStart()
 {
     echo "== Cleaning everything before we start to build..."
 
-    rm -rf iphone-build iphonesim-build osx-build
-    rm -rf $IOSBUILDDIR
-    rm -rf $OSXBUILDDIR
-    rm -rf $PREFIXDIR
-    rm -rf $IOSFRAMEWORKDIR
-    rm -rf $OSXFRAMEWORKDIR
+    rm -rf iphone-build iphonesim-build osx-build && :
+    rm -rf $IOSBUILDDIR && :
+    rm -rf $OSXBUILDDIR && :
+    rm -rf $PREFIXDIR && :
+    rm -rf $IOSFRAMEWORKDIR && :
+    rm -rf $OSXFRAMEWORKDIR && :
 
     doneSection
 }
@@ -251,7 +251,7 @@ scrunchAllLibsTogetherInOneLibPerPlatform()
     doneSection
 
     echo "== Linking each architecture into an uberlib ($ALL_LIBS => libboost.a )"
-    (set +e; rm $IOSBUILDDIR/*/libboost.a)
+    rm $IOSBUILDDIR/*/libboost.a && :
     echo ...armv7
     (cd $IOSBUILDDIR/armv7; xcrun ar crus libboost.a obj/*.o; )
     echo ...armv7s
@@ -261,7 +261,7 @@ scrunchAllLibsTogetherInOneLibPerPlatform()
     echo ...i386
     (cd $IOSBUILDDIR/i386;  xcrun ar crus libboost.a obj/*.o; )
 
-    rm $OSXBUILDDIR/*/libboost.a
+    rm $OSXBUILDDIR/*/libboost.a && :
     echo ...osx-i386
     (cd $OSXBUILDDIR/i386;  xcrun ar crus libboost.a obj/*.o; )
 
@@ -288,7 +288,7 @@ buildFramework()
     FRAMEWORK_BUNDLE=$FRAMEWORKDIR/$FRAMEWORK_NAME.framework
     echo "Framework: Building $FRAMEWORK_BUNDLE from $BUILDDIR..."
 
-    rm -rf $FRAMEWORK_BUNDLE
+    rm -rf $FRAMEWORK_BUNDLE && :
 
     echo "Framework: Setting up directories..."
     mkdir -p $FRAMEWORK_BUNDLE
