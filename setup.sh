@@ -251,7 +251,7 @@ scrunchAllLibsTogetherInOneLibPerPlatform()
     doneSection
 
     echo "== Linking each architecture into an uberlib ($ALL_LIBS => libboost.a )"
-    rm $IOSBUILDDIR/*/libboost.a
+    (set +e; rm $IOSBUILDDIR/*/libboost.a)
     echo ...armv7
     (cd $IOSBUILDDIR/armv7; xcrun ar crus libboost.a obj/*.o; )
     echo ...armv7s
